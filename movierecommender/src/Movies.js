@@ -1,29 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Movies.css';
+import axios from 'axios';
 
-export default function Movies(){
+export default class Movies extends Component{
 
-    const axios = require('axios').default;
-
-    function handleChange(e){
-        var input = e.target.value;
-        console.log(input);
-        getMovies(input);
+    constructor(props){
+        super(props);
+        this.state = {
+            movies: []
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.getMovies = this.getMovies.bind(this);
     }
 
-    function getMovies(searchText){
-        var movies;
+
+    handleChange(e){
+        var input = e.target.value;
+        console.log(input);
+        this.getMovies(input);
+    }
+
+    getMovies(searchText){
+        let master = this;
         axios.get('http://www.omdbapi.com?apikey=3fe96115&s=' + searchText)
         .then((
             function(res){
-                console.log(res.data.Response);
+                console.log(master.state);
                 if(res.data.Response === 'False'){
-                    movies = [];
-                    console.log("Search word is too broud!");
+                    master.setState({movies: []});
                 }else{
-                    movies = res.data.Search;
-                    console.log(movies);
-                    displayMovies(movies);
+                    master.setState({movies: res.data.Search});
                 }
             })
         )
@@ -34,13 +40,33 @@ export default function Movies(){
         )
     }
 
-    function displayMovies(movieList){
-        
-    }
+    render(){
+        const movies = this.state.movies;
+        let cards = "";
 
-    return(
+        if(movies === []){
+            cards = <h2 className = 'card'>No Results</h2>;
+        }else{
+            /*
+            for(var m in movies){
+                console.log(m);
+                let posterLink = "";
+                if(movies[m].Poster === "N/A" || movies[m].Poster === undefined){
+                    posterLink = "";
+                }else{
+                    posterLink = movies[m].Poster;
+                }
+                cards = <div className = 'card'><img src={posterLink} alt=""/></div>;
+            }
+            */
+           cards = movies.map((m) => <div className = 'card'><img src={m.Poster} alt = {m.Title}/></div>);
+        }
+
+        return(
         <div className = 'App-body'>
-            <input className = 'App-searchbar' id="MovieInput" onChange={handleChange}></input>
+            <input className = 'App-searchbar' onChange={this.handleChange}></input>
+            <div className = 'App-movieContainer'>{cards}</div>
         </div>
-    )
+        )
+    }
 }
