@@ -22,7 +22,7 @@ export default class Movies extends Component{
 
     getMovies(searchText){
         let master = this;
-        axios.get('http://www.omdbapi.com?apikey=3fe96115&s=' + searchText)
+        axios.get('https://www.omdbapi.com?apikey=3fe96115&s=' + searchText)
         .then((
             function(res){
                 console.log(master.state);
