@@ -1,53 +1,370 @@
-.App-body{
+:root {
+  --main-background-stripes: repeating-linear-gradient(
+    135deg,
+    #26282b 5px,
+    #0f1923 5px,
+    #0f1923 15px,
+    #26282b 15px,
+    #26282b 20px,
+    #0f1923 20px,
+    #0f1923 25px
+  );
+  --block-text-unselected: #a07956;
+  --block-text-selected: #443b34;
+  --block-background-unselected: transparent;
+  --block-background-selected: #d4af37;
+  --dashboard-dark: #111111;
+  --dashboard-light: #3c3f44;
+
+  --theme: #ff4655;
+  --black: #0f1923;
+  --white: #ece8e1;
+}
+
+.App-body {
+  min-height: 100vh;
+  width: auto;
+  background-image: var(--main-background-stripes);
+}
+
+.App-search {
+  height: calc(100vh - 150px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+}
+
+.App-search #prompt {
+  font-size: 1rem;
+  width: calc(100% - 50px);
+  text-align: center;
+}
+
+.App-search #searchbar {
+  width: calc(100% - 50px);
+  max-width: 600px;
+  margin: 25px 0;
+  padding: 0 25px;
+  height: 30px;
+  outline: none;
+  transform: scale(0.9);
+  transition: 0.5s ease-in-out;
+}
+.App-search #searchbar:focus {
+  transform: scale(1);
+}
+.App-search #btn {
+  padding: 10px 25px;
+  margin: 25px 0;
+  cursor: pointer;
+  background-color: var(--theme);
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  transform: scale(1.1);
+}
+.App-search #btn:active {
+  transform: scale(1);
+}
+
+@media screen and (max-width: 600px) {
+  .App-search #title {
+    font-size: 3rem;
+    text-align: left;
+    margin: 25px;
+  }
+}
+@media screen and (min-width: 600px) {
+  .App-search #title {
+    font-size: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    margin: 30px;
+  }
+}
+
+.card {
+  width: 300px;
+  height: 500px;
+  align-self: center;
+  justify-self: center;
+  background-color: var(--card-background);
+  margin-top: 25px;
+  overflow: hidden;
+}
+
+.card img {
+  height: auto;
+  width: 100%;
+}
+
+.card:hover .rating_buttons {
+  transform: translateY(-150%);
+  transition: 0.5s;
+  opacity:1;
+}
+
+.card>p{
+  position:relative;
+  bottom:0;
+  transform:translateY(-120%);
+  color:white;
+  text-align:center;
+}
+.rating_buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 30px;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  opacity:0;
+}
+
+.rating_buttons section {
+  height: 30px;
+  width: 50px;
+  text-align: center;
+  display: block;
+  line-height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  transition: 0.3s;
+}
+
+.rating_buttons section:hover {
+  cursor: pointer;
+  font-size: 30px;
+  color: var(--theme);
+}
+
+.App-movieContainer {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.App-dashboard {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width:100%;
+  height:100%;
+  transform:scale(0);
+  opacity:0;
+  transition: all 0.5s;
+}
+
+.App-dashboard .translucent-glass{
+  position:absolute;
+  top:0;left:0;
+  height:calc(100% + 20px);
+  width:calc(100% + 20px);
+  background-image:url('../src/landing.PNG');
+  background-size:cover;
+  background-position:center;
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+  filter: blur(10px);
+  transform:translate(-20px, -20px);
+}
+.open{
+  transform:scale(1);
+  transition: all 0.5s;
+  display:block;
+  opacity:1;
+}
+
+.toggle {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100px;
+  width: 100px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 50px;
+  color: white;
+  display:block;
+  opacity:1;
+  z-index: 10;
+}
+
+.toggle:hover {
+  cursor: pointer;
+}
+
+.App-dashboard .user-list{
+  display:inline-block;
+  margin:25px;
+  background-color:var(--black);
+  filter:brightness(2);
+  overflow-y:scroll;
+  overflow-x:hidden;
+}
+
+.App-dashboard .user-list ul{
+  list-style: none;
+  margin:0;
+  padding:25px;
+  display:flex;
+  align-items: center;
+  flex-direction:column;
+  transition:all 1s ease-in-out;
+}
+
+.App-dashboard .user-list>ul>li{
+  font-size:1.5rem;
+  color:var(--white);
+  width:250px;
+  text-align:center;
+  transition:all 0.5s ease-in-out;
+  position:relative;
+}
+.user-list ul li #shader{
+  display:block;
+  position:absolute;
+  width:0;
+  left:0;
+  height:40px;
+  background-color:var(--theme);
+  transform:translateY(-100%);
+  transition:0.2s ease-in-out;
+}
+
+.user-list ul li:hover #shader{
+  display:block;
+  position:absolute;
+  width:100%;
+}
+
+.user-list li:hover{
+  transform:scale(1.1);
+  padding:15px;
+}
+
+
+
+li.current{
+  height:80px;
+  line-height:6rem;
+  transition:all 0.5s ease-in-out;
+}
+
+li.current::before, li.current::after{
+  transform:translate(0,0);
+  border-color:var(--white);
+}
+
+
+
+.App-dashboard .dashboard{
+  display:inline-block;
+  top:0;
+  right:0;
+  margin:25px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+}
+
+.App-dashboard .dashboard #recommendations{
+  position:relative;
+  color:white;
+  width:100%;
+  height:400px;
+}
+
+
+@media screen and (max-width:900px){
+  .App-dashboard .user-list{
+    width:calc(100% - 50px);
+    height:40vh;
+  }
+  .App-dashboard .dashboard{
+    width:calc(100% - 50px);
     min-height:100vh;
-    width:auto;
-    background-color:black;
   }
-  
-  .App-searchbar{
-    width:80%;
-    position:relative;
-    left:50%;
-    transform:translate(-50%, 0);
-    height:50px;
-    font-size:30PX;
-    border-radius:10px;
-    margin:50px;
-  }
+}
 
-  .card{
-    color:white;
-    width:300px;
-    height:430px;
-    display:inline-block;
-    margin:50px;
+@media screen and (min-width:900px){
+  .App-dashboard .user-list{
+    width:400px;
+    height:calc(100vh - 50px);
   }
+  .App-dashboard .dashboard{
+    width:calc(100% - 500px);
+    height:calc(100vh - 50px);
+  }
+}
 
-  .card img{
-    height:100%;
-    width:100%;
-  }
+/*
+.App-dashboard .select li:hover {
+  cursor:pointer;
+  color:var(--block-text-unselected);
+	background-color: var(--card-background);
+}
 
-  .App-movieContainer{
-    width:100%;
-    height:auto;
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  }
-  
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-  }
-  
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
+                    
+                    <div className='top-friends'>
+                        <div>
+                            <section>{rec.recommendation.friends[0][1]}</section>
+                            <section>{rec.recommendation.friends[0][0]}</section>
+                        </div>
+                        <div>
+                            <section>{rec.recommendation.friends[1][1]}</section>
+                            <section>{rec.recommendation.friends[1][0]}</section>
+                        </div>                <div>
+                            <section>{rec.recommendation.friends[2][1]}</section>
+                            <section>{rec.recommendation.friends[2][0]}</section>
+                        </div>
+                    </div>
+
+*/
+
+.App-dashboard .dashboard #chart {
+  position: relative;
+  background-color: var(--card-background);
+  height: 100%;
+  max-height:100vh;
+}
+
+.App-dashboard .dashboard #chart::before {
+  content: "Similarity Chart";
+  height: 50px;
+  display: block;
+  position: absolute;
+  top: -50px;
+  font-size: 20px;
+  color: white;
+  left: 0;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
