@@ -12,7 +12,7 @@ This project is hosted on [Firebase](https://firebase.google.com/) at [m0vrec](h
 
 # Usage
 
-* To play with it, simply visit [trackv1rus](https://trackv1rus.web.app/)
+* To play with it, simply visit [m0vrec](https://m0vrec.web.app/)
 * To code with it, view details in React's build in [Readme](https://github.com/Xiao4Dan/COVID19-Tracking/blob/master/covid19-tracking/README.md)
 * You will see the following in either ```localhost``` or the website
 
