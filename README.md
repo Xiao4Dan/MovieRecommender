@@ -2,7 +2,7 @@
 
 A Valorant themed movie searching and recommending web apps by comparing movie rating history between friend using ```User Based CF```. Designed and built to be a user friendly and well performed web app.
 
-This project is hosted on [Firebase](https://firebase.google.com/) at [trackv1rus](https://trackv1rus.web.app/)
+This project is hosted on [Firebase](https://firebase.google.com/) at [m0vrec](https://m0vrec.web.app/)
 
 ## Built with
 
